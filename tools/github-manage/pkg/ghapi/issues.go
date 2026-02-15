@@ -254,19 +254,6 @@ func IssueHadLabel(repo string, issueNumber int, labelName string, verbose bool)
 	return false, nil
 }
 
-// APIIssue represents the JSON structure returned by the GitHub REST API.
-type APIIssue struct {
-	Number      int              `json:"number"`
-	Title       string           `json:"title"`
-	State       string           `json:"state"`
-	CreatedAt   string           `json:"created_at"`
-	UpdatedAt   string           `json:"updated_at"`
-	Body        string           `json:"body"`
-	User        APIUser          `json:"user"`
-	Labels      []APILabel       `json:"labels"`
-	PullRequest *PullRequestInfo `json:"pull_request,omitempty"` // If present, this is a PR not an issue
-}
-
 // PullRequestInfo is used to detect if an item is a PR (issues don't have this field).
 type PullRequestInfo struct {
 	URL string `json:"url"`
@@ -303,7 +290,7 @@ listLoop:
 			return nil, err
 		}
 
-		var apiIssues []APIIssue
+		var apiIssues []Issue
 		err = json.Unmarshal(results, &apiIssues)
 		if err != nil {
 			return nil, err
@@ -329,19 +316,7 @@ listLoop:
 				continue
 			}
 
-			issue := Issue{
-				Number:    apiIssue.Number,
-				Title:     apiIssue.Title,
-				State:     apiIssue.State,
-				CreatedAt: apiIssue.CreatedAt,
-				UpdatedAt: apiIssue.UpdatedAt,
-				Body:      apiIssue.Body,
-				Author:    Author{Login: apiIssue.User.Login},
-			}
-			for _, label := range apiIssue.Labels {
-				issue.Labels = append(issue.Labels, Label{Name: label.Name})
-			}
-			allIssues = append(allIssues, issue)
+			allIssues = append(allIssues, apiIssue)
 		}
 
 		if len(apiIssues) < perPage { // no more pages

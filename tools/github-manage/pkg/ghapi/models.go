@@ -24,20 +24,21 @@ type Milestone struct {
 }
 
 type Issue struct {
-	Typename  string     `json:"__typename"`
-	ID        string     `json:"id"`
-	Number    int        `json:"number"`
-	Title     string     `json:"title"`
-	Body      string     `json:"body"`
-	Author    Author     `json:"author"`
-	Assignees []Author   `json:"assignees"`
-	CreatedAt string     `json:"createdAt"`
-	UpdatedAt string     `json:"updatedAt"`
-	State     string     `json:"state"`
-	Labels    []Label    `json:"labels"`
-	Milestone *Milestone `json:"milestone,omitempty"`
-	Estimate  int        `json:"estimate,omitempty"` // Custom field for estimate
-	Status    string     `json:"status,omitempty"`   // Custom field for status
+	Typename    string           `json:"__typename"`
+	ID          string           `json:"id"`
+	Number      int              `json:"number"`
+	Title       string           `json:"title"`
+	Body        string           `json:"body"`
+	Author      Author           `json:"author"`
+	Assignees   []Author         `json:"assignees"`
+	CreatedAt   string           `json:"createdAt"`
+	UpdatedAt   string           `json:"updatedAt"`
+	State       string           `json:"state"`
+	Labels      []Label          `json:"labels"`
+	Milestone   *Milestone       `json:"milestone,omitempty"`
+	Estimate    int              `json:"estimate,omitempty"`     // Custom field for estimate
+	Status      string           `json:"status,omitempty"`       // Custom field for status
+	PullRequest *PullRequestInfo `json:"pull_request,omitempty"` // If present, this is a PR not an issue
 }
 
 // HasLabel checks if an issue currently has the specified label (case-insensitive)
