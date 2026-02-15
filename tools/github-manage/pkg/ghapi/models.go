@@ -6,11 +6,9 @@ type Author struct {
 	Login string `json:"login"`
 	IsBot bool   `json:"is_bot"`
 	Name  string `json:"name"`
-	ID    string `json:"id"`
 }
 
 type Label struct {
-	ID          string `json:"id"`
 	Name        string `json:"name"`
 	Description string `json:"description"`
 	Color       string `json:"color"`
@@ -23,22 +21,28 @@ type Milestone struct {
 	DueOn       string `json:"dueOn"`
 }
 
-type Issue struct {
+type IssueWithoutID struct {
 	Typename    string           `json:"__typename"`
-	ID          string           `json:"id"`
 	Number      int              `json:"number"`
 	Title       string           `json:"title"`
 	Body        string           `json:"body"`
 	Author      Author           `json:"author"`
 	Assignees   []Author         `json:"assignees"`
-	CreatedAt   string           `json:"createdAt"`
-	UpdatedAt   string           `json:"updatedAt"`
+	CreatedAt   string           `json:"created_at"`
+	UpdatedAt   string           `json:"updated_at"`
 	State       string           `json:"state"`
 	Labels      []Label          `json:"labels"`
 	Milestone   *Milestone       `json:"milestone,omitempty"`
 	Estimate    int              `json:"estimate,omitempty"`     // Custom field for estimate
 	Status      string           `json:"status,omitempty"`       // Custom field for status
 	PullRequest *PullRequestInfo `json:"pull_request,omitempty"` // If present, this is a PR not an issue
+}
+
+type Issue struct {
+	IssueWithoutID
+	ID        string `json:"id"`
+	CreatedAt string `json:"createdAt"`
+	UpdatedAt string `json:"updatedAt"`
 }
 
 // HasLabel checks if an issue currently has the specified label (case-insensitive)
@@ -142,10 +146,12 @@ func ConvertItemsToIssues(items []ProjectItem) []Issue {
 	var issues []Issue
 	for _, item := range items {
 		issue := Issue{
-			ID:     item.ID,
-			Number: item.Content.Number,
-			Title:  item.Content.Title,
-			Body:   item.Content.Body,
+			ID: item.ID,
+			IssueWithoutID: IssueWithoutID{
+				Number: item.Content.Number,
+				Title:  item.Content.Title,
+				Body:   item.Content.Body,
+			},
 		}
 		if item.Milestone != nil {
 			issue.Milestone = &Milestone{

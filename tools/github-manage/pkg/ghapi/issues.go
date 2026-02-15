@@ -290,7 +290,7 @@ listLoop:
 			return nil, err
 		}
 
-		var apiIssues []Issue
+		var apiIssues []IssueWithoutID
 		err = json.Unmarshal(results, &apiIssues)
 		if err != nil {
 			return nil, err
@@ -316,7 +316,7 @@ listLoop:
 				continue
 			}
 
-			allIssues = append(allIssues, apiIssue)
+			allIssues = append(allIssues, Issue{IssueWithoutID: apiIssue})
 		}
 
 		if len(apiIssues) < perPage { // no more pages

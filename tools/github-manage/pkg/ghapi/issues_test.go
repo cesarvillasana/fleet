@@ -129,23 +129,23 @@ func TestSetMilestoneToIssue(t *testing.T) {
 // Test helper function to validate Issue struct
 func TestIssueStructure(t *testing.T) {
 	issue := Issue{
-		Number: 123,
-		Title:  "Test Issue",
-		Author: Author{
-			Login: "testuser",
-			IsBot: false,
-			Name:  "Test User",
-			ID:    "1",
-		},
-		CreatedAt: "2024-01-01T00:00:00Z",
-		UpdatedAt: "2024-01-01T00:00:00Z",
-		State:     "open",
-		Labels: []Label{
-			{
-				ID:          "1",
-				Name:        "bug",
-				Description: "Something isn't working",
-				Color:       "ff0000",
+		IssueWithoutID: IssueWithoutID{
+			Number: 123,
+			Title:  "Test Issue",
+			Author: Author{
+				Login: "testuser",
+				IsBot: false,
+				Name:  "Test User",
+			},
+			CreatedAt: "2024-01-01T00:00:00Z",
+			UpdatedAt: "2024-01-01T00:00:00Z",
+			State:     "open",
+			Labels: []Label{
+				{
+					Name:        "bug",
+					Description: "Something isn't working",
+					Color:       "ff0000",
+				},
 			},
 		},
 	}

@@ -20,7 +20,7 @@ func TestBulkAddLabel(t *testing.T) {
 		{
 			name: "single issue",
 			issues: []Issue{
-				{Number: 123, Title: "Test Issue"},
+				{IssueWithoutID: IssueWithoutID{Number: 123, Title: "Test Issue"}},
 			},
 			label:       "bug",
 			expectError: false, // Note: Will actually error due to GitHub CLI, but testing structure
@@ -28,9 +28,9 @@ func TestBulkAddLabel(t *testing.T) {
 		{
 			name: "multiple issues",
 			issues: []Issue{
-				{Number: 123, Title: "Test Issue 1"},
-				{Number: 456, Title: "Test Issue 2"},
-				{Number: 789, Title: "Test Issue 3"},
+				{IssueWithoutID: IssueWithoutID{Number: 123, Title: "Test Issue 1"}},
+				{IssueWithoutID: IssueWithoutID{Number: 456, Title: "Test Issue 2"}},
+				{IssueWithoutID: IssueWithoutID{Number: 789, Title: "Test Issue 3"}},
 			},
 			label:       "enhancement",
 			expectError: false, // Note: Will actually error due to GitHub CLI, but testing structure
@@ -70,7 +70,7 @@ func TestBulkRemoveLabel(t *testing.T) {
 		{
 			name: "single issue",
 			issues: []Issue{
-				{Number: 123, Title: "Test Issue"},
+				{IssueWithoutID: IssueWithoutID{Number: 123, Title: "Test Issue"}},
 			},
 			label:       "bug",
 			expectError: false, // Note: Will actually error due to GitHub CLI, but testing structure
@@ -78,8 +78,8 @@ func TestBulkRemoveLabel(t *testing.T) {
 		{
 			name: "multiple issues",
 			issues: []Issue{
-				{Number: 123, Title: "Test Issue 1"},
-				{Number: 456, Title: "Test Issue 2"},
+				{IssueWithoutID: IssueWithoutID{Number: 123, Title: "Test Issue 1"}},
+				{IssueWithoutID: IssueWithoutID{Number: 456, Title: "Test Issue 2"}},
 			},
 			label:       "outdated",
 			expectError: false, // Note: Will actually error due to GitHub CLI, but testing structure
@@ -117,15 +117,15 @@ func TestBulkSprintKickoff(t *testing.T) {
 		{
 			name: "single issue",
 			issues: []Issue{
-				{Number: 123, Title: "Test Issue"},
+				{IssueWithoutID: IssueWithoutID{Number: 123, Title: "Test Issue"}},
 			},
 			projectID: 67,
 		},
 		{
 			name: "multiple issues",
 			issues: []Issue{
-				{Number: 123, Title: "Test Issue 1"},
-				{Number: 456, Title: "Test Issue 2"},
+				{IssueWithoutID: IssueWithoutID{Number: 123, Title: "Test Issue 1"}},
+				{IssueWithoutID: IssueWithoutID{Number: 456, Title: "Test Issue 2"}},
 			},
 			projectID: 70,
 		},
@@ -155,15 +155,15 @@ func TestBulkMilestoneClose(t *testing.T) {
 		{
 			name: "single issue",
 			issues: []Issue{
-				{Number: 123, Title: "Test Issue"},
+				{IssueWithoutID: IssueWithoutID{Number: 123, Title: "Test Issue"}},
 			},
 		},
 		{
 			name: "multiple issues",
 			issues: []Issue{
-				{Number: 123, Title: "Test Issue 1"},
-				{Number: 456, Title: "Test Issue 2"},
-				{Number: 789, Title: "Test Issue 3"},
+				{IssueWithoutID: IssueWithoutID{Number: 123, Title: "Test Issue 1"}},
+				{IssueWithoutID: IssueWithoutID{Number: 456, Title: "Test Issue 2"}},
+				{IssueWithoutID: IssueWithoutID{Number: 789, Title: "Test Issue 3"}},
 			},
 		},
 	}
@@ -213,7 +213,7 @@ func TestWorkflowFunctionsSignatures(t *testing.T) {
 func TestWorkflowsWithValidIssues(t *testing.T) {
 	// Create sample issues for testing
 	issues := []Issue{
-		{
+		{IssueWithoutID: IssueWithoutID{
 			Number: 123,
 			Title:  "Test Issue 1",
 			Author: Author{Login: "testuser1"},
@@ -221,8 +221,8 @@ func TestWorkflowsWithValidIssues(t *testing.T) {
 			Labels: []Label{
 				{Name: "bug"},
 			},
-		},
-		{
+		}},
+		{IssueWithoutID: IssueWithoutID{
 			Number: 456,
 			Title:  "Test Issue 2",
 			Author: Author{Login: "testuser2"},
@@ -230,7 +230,7 @@ func TestWorkflowsWithValidIssues(t *testing.T) {
 			Labels: []Label{
 				{Name: "enhancement"},
 			},
-		},
+		}},
 	}
 
 	t.Run("BulkSprintKickoff with valid issues", func(t *testing.T) {

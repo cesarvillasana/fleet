@@ -134,6 +134,7 @@ func TestAliases(t *testing.T) {
 		"orch":                  71,
 		"sec":                   97,
 		"g-security-compliance": 97,
+		"releases":              87,
 	}
 
 	if !reflect.DeepEqual(Aliases, expectedAliases) {

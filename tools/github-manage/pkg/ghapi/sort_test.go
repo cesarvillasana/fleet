@@ -16,7 +16,7 @@ func mkIssue(num int, labels ...string) Issue {
 		}
 		ls = append(ls, Label{Name: n})
 	}
-	return Issue{Number: num, Labels: ls}
+	return Issue{IssueWithoutID: IssueWithoutID{Number: num, Labels: ls}}
 }
 
 // local rank helpers (must mirror sort.go logic, but kept independent in tests)
